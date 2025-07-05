@@ -1,0 +1,93 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h> 
+
+float celsiusToFahrenheit(float c) {
+    return (c * 9 / 5) + 32;
+}
+
+float celsiusToKelvin(float c) {
+    return c + 273.15;
+}
+
+float fahrenheitToCelsius(float f) {
+    return (f - 32) * 5 / 9;
+}
+
+float fahrenheitToKelvin(float f) {
+    return (f - 32) * 5 / 9 + 273.15;
+}
+
+float kelvinToCelsius(float k) {
+    return k - 273.15;
+}
+
+float kelvinToFahrenheit(float k) {
+    return (k - 273.15) * 9 / 5 + 32;
+}
+
+void convertTemperature(float value, char from, char to) {
+    float result;
+
+    if (from == to) {
+        result = value;
+    } else if (from == 'C') {
+        if (to == 'F') result = celsiusToFahrenheit(value);
+        else if (to == 'K') result = celsiusToKelvin(value);
+    } else if (from == 'F') {
+        if (to == 'C') result = fahrenheitToCelsius(value);
+        else if (to == 'K') result = fahrenheitToKelvin(value);
+    } else if (from == 'K') {
+        if (to == 'C') result = kelvinToCelsius(value);
+        else if (to == 'F') result = kelvinToFahrenheit(value);
+    } else {
+        printf("Invalid scale.\n");
+        return;
+    }
+
+    printf("\n%.2f %c is %.2f %c\n", value, from, result, to);
+}
+
+int main() {
+    float value;
+    char from, to;
+    int choice;
+
+    while (1) {
+        printf("\n--- Temperature Converter ---\n");
+        printf("1. Convert Temperature\n");
+        printf("2. Exit\n");
+        printf("Choose an option: ");
+        scanf("%d", &choice);
+
+        if (choice == 2) {
+            printf("Exiting program. Goodbye!\n");
+            break;
+        } else if (choice != 1) {
+            printf("Invalid option. Try again.\n");
+            continue;
+        }
+
+        printf("Enter temperature value: ");
+        scanf("%f", &value);
+
+        printf("Convert from (C/F/K): ");
+        scanf(" %c", &from);
+
+        printf("Convert to (C/F/K): ");
+        scanf(" %c", &to);
+
+        from = toupper(from);
+        to = toupper(to);
+
+        if ((from != 'C' && from != 'F' && from != 'K') ||
+            (to != 'C' && to != 'F' && to != 'K')) {
+            printf("Invalid scale input. Please use C, F, or K.\n");
+            continue;
+        }
+
+        convertTemperature(value, from, to);
+    }
+
+    return 0;
+}
